@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Ping Monitor
+Comment=Monitor hosts with ICMP ping
+Exec=ping-monitor
+Icon=ping-monitor
+Terminal=false
+Categories=Network;Monitor;
