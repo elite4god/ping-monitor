@@ -480,7 +480,7 @@ impl eframe::App for PingMonApp {
                             if !ok_pts.is_empty() {
                                 p.points(
                                     Points::new(ok_pts)
-                                        .radius(2.0)
+                                        .radius(2.0_f32)
                                         .color(Color32::from_rgb(90, 200, 120)),
                                 );
                             }
@@ -488,7 +488,7 @@ impl eframe::App for PingMonApp {
                                 p.points(
                                     Points::new(lost_pts)
                                         .shape(MarkerShape::Cross)
-                                        .radius(5.0)
+                                        .radius(5.0_f32)
                                         .color(Color32::from_rgb(230, 80, 80)),
                                 );
                             }
