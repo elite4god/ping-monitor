@@ -9,7 +9,7 @@ fn main() {
         res.set_icon("wix/ping-monitor.ico");
         res.set("ProductName", "Ping Monitor");
         res.set("FileDescription", "Ping Monitor");
-        res.set("LegalCopyright", "Copyright (c) 2026 Your Name");
+        res.set("LegalCopyright", "Copyright (c) 2026 Jeremy Leonard");
         // FileVersion / ProductVersion are taken from Cargo.toml automatically.
         res.compile().expect("failed to embed Windows resources");
     }

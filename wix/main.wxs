@@ -15,11 +15,11 @@
 
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
   <Product Id='*' Name='Ping Monitor' UpgradeCode='0167D28C-2443-4F7E-9626-CA3C3E3C3D3F'
-           Manufacturer='Your Name' Language='1033' Codepage='1252'
+           Manufacturer='Jeremy Leonard' Language='1033' Codepage='1252'
            Version='$(var.Version)'>
 
     <Package Id='*' Keywords='Installer' Description='Ping Monitor - ICMP host monitoring'
-             Manufacturer='Your Name' InstallerVersion='450' Languages='1033'
+             Manufacturer='Jeremy Leonard' InstallerVersion='450' Languages='1033'
              Compressed='yes' InstallScope='perMachine' SummaryCodepage='1252'
              Platform='$(var.Platform)'/>
 

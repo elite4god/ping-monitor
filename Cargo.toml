@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 description = "Cross-platform ICMP ping monitor with live graphs and an event log"
 license = "MIT"
-authors = ["Your Name <you@example.com>"]
+authors = ["Jeremy Leonard <jeremyl@elite4god.com>"]
 
 [dependencies]
 eframe = "0.29"
@@ -25,8 +25,8 @@ lto = true
 strip = true
 
 [package.metadata.deb]
-maintainer = "Your Name <you@example.com>"
-copyright = "2026, Your Name"
+maintainer = "Jeremy Leonard <jeremyl@elite4god.com>"
+copyright = "2026, Jeremy Leonard"
 section = "net"
 priority = "optional"
 extended-description = """\
