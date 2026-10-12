@@ -1,0 +1,6 @@
+debug
+release
+docs
+target
+**/*.rs.bk
+*.pdb
