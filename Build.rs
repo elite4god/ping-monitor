@@ -1,42 +1,16 @@
-[package]
-name = "ping-monitor"
-version = "0.1.0"
-edition = "2021"
-description = "Cross-platform ICMP ping monitor with live graphs and an event log"
-license = "MIT"
-authors = ["Your Name <you@example.com>"]
+// Embeds the application icon and version metadata into ping-monitor.exe.
+// Does nothing when building for Linux/macOS.
+fn main() {
+    println!("cargo:rerun-if-changed=wix/ping-monitor.ico");
+    println!("cargo:rerun-if-changed=build.rs");
 
-[dependencies]
-eframe = "0.29"
-egui_plot = "0.29"
-surge-ping = "0.8"
-tokio = { version = "1", features = ["rt-multi-thread", "time", "net", "sync"] }
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-chrono = "0.4"
-directories = "5"
-
-[build-dependencies]
-winresource = "0.1"
-
-[profile.release]
-opt-level = 3
-lto = true
-strip = true
-
-[package.metadata.deb]
-maintainer = "Your Name <you@example.com>"
-copyright = "2026, Your Name"
-section = "net"
-priority = "optional"
-extended-description = """\
-Monitor many hosts with ICMP echo requests. Shows status, latency \
-(last/avg/min/max), packet loss, a live latency graph and an UP/DOWN \
-event log. Host list is saved automatically."""
-depends = "$auto, libgl1, libxkbcommon0, libx11-6, libcap2-bin"
-maintainer-scripts = "debian/"
-assets = [
-    ["target/release/ping-monitor", "usr/bin/", "755"],
-    ["assets/ping-monitor.desktop", "usr/share/applications/", "644"],
-    ["assets/ping-monitor.svg", "usr/share/icons/hicolor/scalable/apps/", "644"],
-]
+    if std::env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("windows") {
+        let mut res = winresource::WindowsResource::new();
+        res.set_icon("wix/ping-monitor.ico");
+        res.set("ProductName", "Ping Monitor");
+        res.set("FileDescription", "Ping Monitor");
+        res.set("LegalCopyright", "Copyright (c) 2026 Your Name");
+        // FileVersion / ProductVersion are taken from Cargo.toml automatically.
+        res.compile().expect("failed to embed Windows resources");
+    }
+}
