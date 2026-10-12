@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<!--
+  WiX v3 installer definition, built with: cargo wix
+  cargo-wix supplies the Version, Platform and CargoTargetBinDir variables.
+  Keep the UpgradeCode below FIXED for the life of the product so new
+  versions upgrade old ones in place.
+-->
+<?if $(var.Platform) = x64 ?>
+    <?define Win64 = "yes" ?>
+    <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+<?else ?>
+    <?define Win64 = "no" ?>
+    <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+<?endif ?>
+
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+  <Product Id='*' Name='Ping Monitor' UpgradeCode='0167D28C-2443-4F7E-9626-CA3C3E3C3D3F'
+           Manufacturer='Your Name' Language='1033' Codepage='1252'
+           Version='$(var.Version)'>
+
+    <Package Id='*' Keywords='Installer' Description='Ping Monitor - ICMP host monitoring'
+             Manufacturer='Your Name' InstallerVersion='450' Languages='1033'
+             Compressed='yes' InstallScope='perMachine' SummaryCodepage='1252'
+             Platform='$(var.Platform)'/>
+
+    <MajorUpgrade Schedule='afterInstallInitialize'
+                  DowngradeErrorMessage='A newer version of [ProductName] is already installed. Setup will now exit.'/>
+
+    <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1'/>
+    <Property Id='DiskPrompt' Value='Ping Monitor Installation'/>
+
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
+        <Directory Id='APPLICATIONFOLDER' Name='Ping Monitor'>
+          <Component Id='MainExecutable' Guid='*' Win64='$(var.Win64)'>
+            <File Id='PingMonitorExe' Name='ping-monitor.exe' DiskId='1'
+                  Source='$(var.CargoTargetBinDir)\ping-monitor.exe' KeyPath='yes'/>
+          </Component>
+        </Directory>
+      </Directory>
+
+      <Directory Id='ProgramMenuFolder'>
+        <Directory Id='AppMenuFolder' Name='Ping Monitor'>
+          <Component Id='StartMenuShortcut' Guid='*'>
+            <Shortcut Id='AppStartMenuShortcut' Name='Ping Monitor'
+                      Description='Monitor hosts with ICMP ping'
+                      Target='[APPLICATIONFOLDER]ping-monitor.exe'
+                      WorkingDirectory='APPLICATIONFOLDER' Icon='AppIcon.ico'/>
+            <RemoveFolder Id='RemoveAppMenuFolder' On='uninstall'/>
+            <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]'
+                           Name='StartMenuShortcut' Type='integer' Value='1' KeyPath='yes'/>
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id='Application' Title='Ping Monitor' Level='1' ConfigurableDirectory='APPLICATIONFOLDER'>
+      <ComponentRef Id='MainExecutable'/>
+      <ComponentRef Id='StartMenuShortcut'/>
+    </Feature>
+
+    <Icon Id='AppIcon.ico' SourceFile='wix\ping-monitor.ico'/>
+    <Property Id='ARPPRODUCTICON' Value='AppIcon.ico'/>
+
+    <Property Id='WIXUI_INSTALLDIR' Value='APPLICATIONFOLDER'/>
+    <WixVariable Id='WixUILicenseRtf' Value='wix\License.rtf'/>
+    <UIRef Id='WixUI_InstallDir'/>
+  </Product>
+</Wix>
