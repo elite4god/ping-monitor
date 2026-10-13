@@ -1,8 +1,8 @@
 # Ping Monitor
 
 A cross-platform desktop application, written in Rust, for monitoring many hosts
-with ICMP echo requests ("pings").Add your hosts, leave the window open, and see
-at a glance what is up, what is down, and how healthy each link is.
+with ICMP echo requests ("pings"). Add your hosts, leave the window open, and
+see at a glance what is up, what is down, and how healthy each link is.
 
 The GUI is built with [egui](https://github.com/emilk/egui)/eframe and ICMP is
 handled asynchronously with [surge-ping](https://crates.io/crates/surge-ping) on
@@ -18,6 +18,7 @@ top of [tokio](https://tokio.rs), so a slow or dead host never freezes the UI.
 - Event log recording every UP / DOWN transition with a timestamp
 - Pause all monitoring, or enable / disable individual hosts
 - Host list is saved automatically and restored on the next launch
+- About dialog showing version, author and license (click the **?** button at the top right, or press **F1**)
 - Runs on Linux, Windows and macOS from a single code base
 
 ## Usage
@@ -62,10 +63,11 @@ ping-monitor/
 ├── build.rs                   Embeds the icon / version info in the Windows .exe
 ├── src/main.rs                The application (GUI and ICMP engine)
 ├── src/targets.rs             Parsing of DNS / IP / CIDR / range / list / CSV input (with unit tests)
-├── assets/                    Linux desktop entry and icon
+├── assets/                    Linux desktop entry, SVG icon and the embedded window icon (icon-128.rgba)
 ├── debian/postinst            Grants ICMP permission when installing the .deb
 ├── wix/                       Windows installer definition, license and icon
 └── scripts/
+    ├── make_icon.py           Regenerates the .ico and window icon (python3, no dependencies)
     ├── build-deb.sh           Build a Debian/Ubuntu package
     └── build-msi.ps1          Build a Windows MSI installer
 ```
@@ -108,12 +110,12 @@ chmod +x scripts/build-deb.sh debian/postinst
 
 This installs [`cargo-deb`](https://crates.io/crates/cargo-deb) if needed and
 writes the package to `target/debian/`, for example
-`ping-monitor_0.2.0-1_amd64.deb`.
+`ping-monitor_0.2.1-1_amd64.deb`.
 
 ### Install
 
 ```bash
-sudo apt install ./target/debian/ping-monitor_0.2.0-1_amd64.deb
+sudo apt install ./target/debian/ping-monitor_0.2.1-1_amd64.deb
 ```
 
 The package installs the program to `/usr/bin/ping-monitor`, adds an
@@ -159,7 +161,7 @@ cargo run --release
 
 The script installs [`cargo-wix`](https://crates.io/crates/cargo-wix) if needed
 and writes the installer to `target\wix\`, for example
-`ping-monitor-0.2.0-x86_64.msi`.
+`ping-monitor-0.2.1-x86_64.msi`.
 
 ### Install
 
@@ -167,7 +169,7 @@ Double-click the `.msi` and follow the wizard, or install silently from an
 elevated prompt:
 
 ```powershell
-msiexec /i ping-monitor-0.2.0-x86_64.msi /qn
+msiexec /i ping-monitor-0.2.1-x86_64.msi /qn
 ```
 
 The installer places the program in `Program Files\Ping Monitor`, adds a Start
